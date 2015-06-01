@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cmn-Hans">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="http://cdn.bootcss.com/react/0.14.0-alpha1/react.js"></script>
+  <script src="http://cdn.bootcss.com/react/0.14.0-alpha1/JSXTransformer.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+</body>
+
+
+<script type="text/jsx">
+
+  var TodoItem = React.createClass({
+    render: function() {
+      return(
+              <li>
+                {this.props.children}
+              </li>
+      )
+    }
+  });
+
+  var TodoList = React.createClass({
+    getInitialState: function() {
+      return {
+        data:[
+        {
+          text: 'hello'
+        },{
+          text  : 'world'
+        }]
+      };
+    },
+    render: function() {
+      var todoItems = this.state.data.map(function(item) {
+        return(
+             <TodoItem>
+               {item.text}
+             </TodoItem>
+        )
+      }) ;
+      return (
+              <ul>
+                {todoItems}
+              </ul>
+      )
+    }
+  });
+  React.render(<TodoList></TodoList>, document.getElementById('content'));
+</script>
+</html>
