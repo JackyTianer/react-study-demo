@@ -18,6 +18,7 @@
       return(
               <li>
                 {this.props.children}
+                <br/>
               </li>
       )
     }
@@ -26,7 +27,7 @@
   var TodoList = React.createClass({
     getInitialState: function() {
       return {
-        valaue:'test',
+        value:'',
         data:[
         {
           text: 'hello'
@@ -36,10 +37,9 @@
       };
     },
     changeItem: function (e) {
-      console.log(e);
-//      this.setState({
-//        value: e.target.value
-//      });
+      this.setState({
+        value: e.target.value
+      });
     },
     submitItem: function(e) {
       console.log(e);
@@ -51,7 +51,7 @@
     render: function() {
       var todoItems = this.state.data.map(function(item, index) {
         return(
-                <TodoItem index={index + item.text}>
+                <TodoItem key={index + item.text}>
                   {item.text}
                 </TodoItem>
         )
@@ -61,8 +61,8 @@
                 <ul>
                   {todoItems}
                 </ul>
-                <input value={this.state.value}/>
-                <button onClick={this.submitItem} onChange={this.changeItem}>提交</button>
+                <input value={this.state.value} onChange={this.changeItem}/>
+                <button onClick={this.submitItem} >提交</button>
               </div>
       )
     }
