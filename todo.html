@@ -26,6 +26,7 @@
   var TodoList = React.createClass({
     getInitialState: function() {
       return {
+        valaue:'test',
         data:[
         {
           text: 'hello'
@@ -34,18 +35,35 @@
         }]
       };
     },
+    changeItem: function (e) {
+      console.log(e);
+//      this.setState({
+//        value: e.target.value
+//      });
+    },
+    submitItem: function(e) {
+      console.log(e);
+      this.state.data.push({
+        text:this.state.value
+      });
+      this.setState({data: this.state.data, value: ''});
+    },
     render: function() {
-      var todoItems = this.state.data.map(function(item) {
+      var todoItems = this.state.data.map(function(item, index) {
         return(
-             <TodoItem>
-               {item.text}
-             </TodoItem>
+                <TodoItem index={index + item.text}>
+                  {item.text}
+                </TodoItem>
         )
       }) ;
       return (
-              <ul>
-                {todoItems}
-              </ul>
+              <div>
+                <ul>
+                  {todoItems}
+                </ul>
+                <input value={this.state.value}/>
+                <button onClick={this.submitItem} onChange={this.changeItem}>提交</button>
+              </div>
       )
     }
   });
