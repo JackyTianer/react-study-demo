@@ -14,10 +14,16 @@
 <script type="text/jsx">
 
   var TodoItem = React.createClass({
+
+    update: function (index) {
+      console.log(index);
+    },
+
     render: function() {
       return(
               <li>
-                {this.props.children}
+                <span>{this.props.children}</span>
+                <button  onClick={this.update.bind(this, this.props.index)}>修改</button>
                 <br/>
               </li>
       )
@@ -44,7 +50,6 @@
       });
     },
     submitItem: function(e) {
-      console.log(e);
       this.state.data.push({
         text:this.state.value,
         date: new Date().toLocaleString()
@@ -54,7 +59,7 @@
     render: function() {
       var todoItems = this.state.data.map(function(item, index) {
         return(
-                <TodoItem key={index + item.text}>
+                <TodoItem key={index} index={index}>
                   {item.text}
                   <br/>
                   {item.date}
