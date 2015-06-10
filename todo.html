@@ -14,15 +14,24 @@
 <script type="text/jsx">
 
   var TodoItem = React.createClass({
-
+    getInitialState: function() {
+      return {
+        text: this.props.children[0],
+        date: this.props.children[2]
+      }
+    },
     update: function (index) {
-      console.log(index);
+      this.setState({date: new Date().toLocaleString() });
     },
 
     render: function() {
       return(
               <li>
-                <span>{this.props.children}</span>
+                <span>
+                  {this.state.text}
+                  <br/>
+                  {this.state.date}
+                </span>
                 <button  onClick={this.update.bind(this, this.props.index)}>修改</button>
                 <br/>
               </li>
