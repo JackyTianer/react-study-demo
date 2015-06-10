@@ -16,12 +16,18 @@
   var TodoItem = React.createClass({
     getInitialState: function() {
       return {
+        isEdit: false,
         text: this.props.children[0],
         date: this.props.children[2]
       }
     },
-    update: function (index) {
-      this.setState({date: new Date().toLocaleString() });
+
+    changeItem: function() {
+      // TODO
+    },
+
+    update: function(index) {
+      this.setState({isEdit: true });
     },
 
     render: function() {
@@ -34,6 +40,11 @@
                 </span>
                 <button  onClick={this.update.bind(this, this.props.index)}>修改</button>
                 <br/>
+                <input type="text"
+                       style={{display:(this.state.isEdit ? 'inline' : 'none')}}
+                       value={this.state.text}
+                       onChange={this.changeItem}
+                        />
               </li>
       )
     }
