@@ -22,12 +22,18 @@
       }
     },
 
-    changeItem: function() {
-      // TODO
+    changeItem: function(e) {
+      this.setState({
+        text: e.target.value
+      });
     },
 
     update: function(index) {
       this.setState({isEdit: true });
+    },
+
+    updateValue: function() {
+      this.setState({isEdit: false });
     },
 
     render: function() {
@@ -45,6 +51,7 @@
                        value={this.state.text}
                        onChange={this.changeItem}
                         />
+                <button style={{display:(this.state.isEdit ? 'inline' : 'none')}} onClick={this.updateValue}>提交</button>
               </li>
       )
     }
