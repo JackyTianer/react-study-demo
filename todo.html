@@ -7,14 +7,18 @@
   <script src="http://cdn.bootcss.com/react/0.14.0-alpha1/JSXTransformer.js"></script>
 </head>
 <body>
-  <div id="content"></div>
+<div id="content"></div>
 </body>
 
 
 <script type="text/jsx">
-
+  var localStorage = window.localStorage;
+  if (!localStorage.listData) {
+    localStorage.listData = new Array();
+  }
+  console.log(localStorage.listData);
   var TodoItem = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
       return {
         isEdit: false,
         text: this.props.children[0],
@@ -22,30 +26,30 @@
       }
     },
 
-    changeItem: function(e) {
+    changeItem: function (e) {
       this.setState({
         text: e.target.value
       });
     },
 
-    update: function(index) {
-      this.setState({isEdit: true });
+    update: function () {
+      this.setState({isEdit: true});
 
     },
 
-    updateValue: function() {
-      this.setState({isEdit: false });
+    updateValue: function () {
+      this.setState({isEdit: false});
     },
 
-    render: function() {
-      return(
+    render: function () {
+      return (
               <li>
                 <span>
                   {this.state.text}
                   <br/>
                   {this.state.date}
                 </span>
-                <button  onClick={this.update.bind(this, this.props.index)}>修改</button>
+                <button onClick={this.update}>修改</button>
                 <br/>
                 <input type="text"
                        style={{display:(this.state.isEdit ? 'inline' : 'none')}}
@@ -59,17 +63,10 @@
   });
 
   var TodoList = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
       return {
-        value:'',
-        data:[
-        {
-          text: 'hello',
-          date: '2014/12/12 上午12:12:34'
-        },{
-          text: 'world',
-          date: '2015/2/1 上午10:28:54'
-        }]
+        value: '',
+        data: localStorage.data
       };
     },
     changeItem: function (e) {
@@ -77,30 +74,40 @@
         value: e.target.value
       });
     },
-    submitItem: function(e) {
+    submitItem: function (e) {
+      console.log(typeof this.state.data);
       this.state.data.push({
-        text:this.state.value,
+        text: this.state.value,
+        date: new Date().toLocaleString()
+      });
+      localStorage.data.push({
+        text: this.state.value,
         date: new Date().toLocaleString()
       });
       this.setState({data: this.state.data, value: ''});
     },
-    render: function() {
-      var todoItems = this.state.data.map(function(item, index) {
-        return(
-                <TodoItem key={index} index={index}>
-                  {item.text}
-                  <br/>
-                  {item.date}
-                </TodoItem>
-        )
-      }) ;
+    render: function () {
+      var todoItems ;
+      if (this.state.data.length > 0) {
+        todoItems = this.state.data.map(function (item, index) {
+          return (
+                  <TodoItem key={index} index={index}>
+                    {item.text}
+                    <br/>
+                    {item.date}
+                  </TodoItem>
+          )
+        });
+      } else {
+        todoItems = null;
+      }
       return (
               <div>
                 <ul>
                   {todoItems}
                 </ul>
                 <input value={this.state.value} onChange={this.changeItem}/>
-                <button onClick={this.submitItem} >提交</button>
+                <button onClick={this.submitItem}>提交</button>
               </div>
       )
     }
