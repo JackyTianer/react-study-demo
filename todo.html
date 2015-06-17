@@ -16,12 +16,11 @@
   var data = localStorage.getItem('todoListValue');
   var todoListValue;
   if (!data){
-    localStorage.setItem('todoListValue',[]);
+    localStorage.setItem('todoListValue',JSON.stringify([]));
     data = localStorage.getItem('todoListValue');
   }
-  //TODO 分离成数组
-  todoListValue = data.split(',');
-
+  todoListValue = JSON.parse(data);
+  console.log(todoListValue);
   var TodoItem = React.createClass({
     getInitialState: function () {
       return {
@@ -32,6 +31,7 @@
     },
 
     changeItem: function (e) {
+      // TODO localstorage 修正
       this.setState({
         text: e.target.value
       });
@@ -81,15 +81,11 @@
     },
     submitItem: function (e) {
       console.log(typeof this.state.data);
-//      this.state.data.push({
-//        text: this.state.value,
-//        date: new Date().toLocaleString()
-//      });
       todoListValue.push({
         text: this.state.value,
         date: new Date().toLocaleString()
       });
-      localStorage.setItem('todoListValue', todoListValue);
+      localStorage.setItem('todoListValue', JSON.stringify(todoListValue));
       this.setState({data: this.state.data, value: ''});
     },
     render: function () {
@@ -114,6 +110,7 @@
                 </ul>
                 <input value={this.state.value} onChange={this.changeItem}/>
                 <button onClick={this.submitItem}>提交</button>
+                <button onClick={this.clear}>清空数据</button>
               </div>
       )
     }
